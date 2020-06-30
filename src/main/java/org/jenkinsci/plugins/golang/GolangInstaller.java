@@ -54,7 +54,14 @@ public class GolangInstaller extends DownloadFromUrlInstaller {
         }
 
         String message = Messages.InstallingGoOnNode(installable.url, expectedPath, node.getDisplayName());
-        if (expectedPath.installIfNecessaryFrom(new URL(installable.url), log, message)) {
+		System.out.println("Installable url : " + installable.url);
+		String real_url = installable.url;
+		if (!(installable.url.contains("http://") || installable.url.contains("https://"))) {
+			real_url = "https://golang.org/" + installable.url;
+		}
+		System.out.println("Real url : " + real_url);
+
+        if (expectedPath.installIfNecessaryFrom(new URL(real_url), log, message)) {
             expectedPath.child(".timestamp").delete(); // we don't use the timestamp
             FilePath base = findPullUpDirectory(expectedPath);
             if (base != null && base != expectedPath)
